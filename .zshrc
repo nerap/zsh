@@ -1,52 +1,54 @@
+source ~/zsh-defer/zsh-defer.plugin.zsh
 # If you come from bash you might have to change your $PATH.
 #export PATH=$HOME/bin:/usr/local/bin:$PATH
 export LANG=en_US.UTF-8
-
 # Path to your oh-my-zsh installation.
-echo "Loading oh-my-zsh"
 export ZSH="$HOME/.oh-my-zsh"
-echo "ZSH: $ZSH"
-source $ZSH/oh-my-zsh.sh
-source $HOME/.zsh_profile
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#export ZSH_THEME="gnzh"
+# Disable untracked files dirty
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(git)
-
+# Enable completion waiting dots
 COMPLETION_WAITING_DOTS="true"
+
+# Load oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# Custom profile
+zsh-defer source $HOME/.zsh_profile
+
+# Defer plugin loading
+zstyle ':omz:plugins:nvm' lazy yes
+
+plugins=(
+  git
+  nvm
+)
 
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
+# Export scripts
 export PATH=$PATH:$HOME/bin/.local/scripts
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
+# Vim key bindings
 bindkey -v
 
-alias vi="nvim"
-alias vim="nvim"
-alias view="nvim -R"
-alias vimdiff="nvim -d"
-
-echo "Loading nvm"
+# Load nvim
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-echo "Loaded nvm"
+zsh-defer sh -c "source $NVM_DIR/nvm.sh"
+zsh-defer sh -c "source $NVM_DIR/bash_completion"
 
 export GPG_TTY=$(tty)
 
+# Lua Roack molten dependency
 export MAGICK_HOME=/opt/homebrew/opt/imagemagick
 export PATH=$MAGICK_HOME/bin:$PATH
 
-setopt prompt_subst
-
+# Manage custom themes
 () {
   local PR_USER PR_USER_OP PR_PROMPT PR_HOST
 
@@ -84,6 +86,8 @@ setopt prompt_subst
   ZSH_THEME_RUBY_PROMPT_SUFFIX="›%f"
 }
 
+setopt prompt_subst
+
 #echo "Loading conda"
 ## >>> conda initialize >>>
 ## !! Contents within this block are managed by 'conda init' !!
@@ -114,4 +118,3 @@ setopt prompt_subst
 #unset __conda_setup
 #echo "Loading unconda"
 # <<< conda initialize <<<
-

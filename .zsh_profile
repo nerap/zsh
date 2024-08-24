@@ -4,5 +4,10 @@ VIM="nvim"
 export GIT_EDITOR=$VIM
 export DOTFILES=$HOME/.dotfiles
 
+alias vi="nvim"
+alias vim="nvim"
+alias view="nvim -R"
+alias vimdiff="nvim -d"
+
 bindkey -s ^f "tmux-sessionizer\n"
 
