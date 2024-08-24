@@ -9,27 +9,21 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-export ZSH_THEME="robbyrussell"
+export ZSH_THEME="gnzh"
 
 
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
-
-
 
 COMPLETION_WAITING_DOTS="true"
-
 
 # You may need to manually set your language environment
 
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
-
 export PATH=$PATH:$HOME/bin/.local/scripts
 
-source $HOME/.zsh_profile
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
@@ -49,6 +43,9 @@ export GPG_TTY=$(tty)
 
 export MAGICK_HOME=/opt/homebrew/opt/imagemagick
 export PATH=$MAGICK_HOME/bin:$PATH
+
+source $HOME/.zsh_profile
+source $ZSH/oh-my-zsh.sh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
