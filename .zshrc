@@ -4,6 +4,7 @@ source ~/tools/zsh-defer/zsh-defer.plugin.zsh
 export LANG=en_US.UTF-8
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+source $HOME/.zsh_profile
 
 # Create a cache folder if it isn't exists
 if [ ! -d "$HOME/.cache/zsh" ]; then
