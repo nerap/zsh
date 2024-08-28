@@ -83,6 +83,13 @@ function get_git_branch_or_folder() {
     fi
 }
 
+function git_branch_prompt() {
+    local branch=$(get_git_branch_or_folder)
+    if [[ "$branch" != "nothing" ]]; then
+        echo "%F{#ff757f}‹${branch}›%f"
+    fi
+}
+
 # Manage custom themes
 () {
   local PR_USER PR_USER_OP PR_PROMPT PR_HOST
@@ -110,8 +117,7 @@ function get_git_branch_or_folder() {
   local user_host="${PR_USER}%F{#7dcfff}@${PR_HOST}"
   local current_dir="%B%F{#bb9af7}%~%f%b"
 
-  #local git_branch='$(git_prompt_info)'
-  local git_branch='$(get_git_branch_or_folder)'
+  local git_branch='$(git_branch_prompt)'
 
   PROMPT="╭─${user_host} ${current_dir} \$(ruby_prompt_info) ${git_branch}
   ╰─$PR_PROMPT "
