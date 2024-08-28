@@ -1,9 +1,17 @@
-source ~/zsh-defer/zsh-defer.plugin.zsh
+source ~/tools/zsh-defer/zsh-defer.plugin.zsh
 # If you come from bash you might have to change your $PATH.
 #export PATH=$HOME/bin:/usr/local/bin:$PATH
 export LANG=en_US.UTF-8
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
+# Create a cache folder if it isn't exists
+if [ ! -d "$HOME/.cache/zsh" ]; then
+    mkdir -p $HOME/.cache/zsh
+fi
+
+# Define a custom file for compdump
+export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$HOST-$ZSH_VERSION"
 
 # Disable untracked files dirty
 DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -37,16 +45,43 @@ export ARCHFLAGS="-arch x86_64"
 # Vim key bindings
 bindkey -v
 
-# Load nvim
-export NVM_DIR="$HOME/.nvm"
-zsh-defer sh -c "source $NVM_DIR/nvm.sh"
-zsh-defer sh -c "source $NVM_DIR/bash_completion"
+# Load nvm
+export NVM_DIR=~/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 export GPG_TTY=$(tty)
 
 # Lua Roack molten dependency
 export MAGICK_HOME=/opt/homebrew/opt/imagemagick
 export PATH=$MAGICK_HOME/bin:$PATH
+
+# Function to get the current Git branch, folder name, or root, with unstaged change indicator for regular repos
+function get_git_branch_or_folder() {
+    if ! git rev-parse --is-inside-git-dir &>/dev/null; then
+        echo "nothing"
+        return
+    fi
+
+    if $(git rev-parse --is-bare-repository) &>/dev/null; then
+        echo "bare"
+    else
+        # We're in a regular Git repo
+        local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+        local changes=""
+
+        # Check for unstaged changes
+        if ! git diff --quiet --exit-code; then
+            changes="*"
+        fi
+
+        if [[ -n "$branch" ]]; then
+            echo "${branch}${changes}"
+        else
+            # We're probably in a detached HEAD state, so get the SHA
+            echo "$(git rev-parse --short HEAD 2>/dev/null)${changes}"
+        fi
+    fi
+}
 
 # Manage custom themes
 () {
@@ -74,7 +109,9 @@ export PATH=$MAGICK_HOME/bin:$PATH
 
   local user_host="${PR_USER}%F{#7dcfff}@${PR_HOST}"
   local current_dir="%B%F{#bb9af7}%~%f%b"
-  local git_branch='$(git_prompt_info)'
+
+  #local git_branch='$(git_prompt_info)'
+  local git_branch='$(get_git_branch_or_folder)'
 
   PROMPT="╭─${user_host} ${current_dir} \$(ruby_prompt_info) ${git_branch}
   ╰─$PR_PROMPT "
