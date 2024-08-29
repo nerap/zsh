@@ -30,7 +30,6 @@ zsh-defer source $HOME/.zsh_profile
 zstyle ':omz:plugins:nvm' lazy yes
 
 plugins=(
-  git
   nvm
 )
 
