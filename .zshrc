@@ -116,14 +116,12 @@ function git_branch_prompt() {
 
   local git_branch='$(git_branch_prompt)'
 
-  PROMPT="╭─${user_host} ${current_dir} \$(ruby_prompt_info) ${git_branch}
+  PROMPT="╭─${user_host} ${current_dir} ${git_branch}
   ╰─$PR_PROMPT "
   RPROMPT="${return_code}"
 
   ZSH_THEME_GIT_PROMPT_PREFIX="%F{#ff757f}‹"
   ZSH_THEME_GIT_PROMPT_SUFFIX="› %f"
-  ZSH_THEME_RUBY_PROMPT_PREFIX="%F{#ff757f}‹"
-  ZSH_THEME_RUBY_PROMPT_SUFFIX="›%f"
 }
 
 setopt prompt_subst
