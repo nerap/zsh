@@ -46,9 +46,6 @@ export ARCHFLAGS="-arch x86_64"
 # Vim key bindings
 bindkey -v
 
-# Load nvm
-export NVM_DIR=~/.nvm
-zsh-defer [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 export GPG_TTY=$(tty)
 
