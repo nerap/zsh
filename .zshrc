@@ -21,7 +21,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Load oh-my-zsh
-source $ZSH/oh-my-zsh.sh
+zsh-defer source $ZSH/oh-my-zsh.sh
 
 # Custom profile
 zsh-defer source $HOME/.zsh_profile
@@ -48,7 +48,7 @@ bindkey -v
 
 # Load nvm
 export NVM_DIR=~/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+zsh-defer [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 export GPG_TTY=$(tty)
 
