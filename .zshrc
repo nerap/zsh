@@ -52,6 +52,9 @@ export GPG_TTY=$(tty)
 export MAGICK_HOME=/opt/homebrew/opt/imagemagick
 export PATH=$MAGICK_HOME/bin:$PATH
 
+# Pyenv
+export PATH="~/.pyenv/shims:${PATH}"
+
 # Function to get the current Git branch, folder name, or root, with unstaged change indicator for regular repos
 function get_git_branch_or_folder() {
     if ! git rev-parse --is-inside-git-dir &>/dev/null; then
