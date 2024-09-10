@@ -14,6 +14,9 @@ fi
 # Define a custom file for compdump
 export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$HOST-$ZSH_VERSION"
 
+# Brew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Disable untracked files dirty
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
