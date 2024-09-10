@@ -1,11 +1,11 @@
 source ~/tools/zsh-defer/zsh-defer.plugin.zsh
 # If you come from bash you might have to change your $PATH.
 #export PATH=$HOME/bin:/usr/local/bin:$PATH
-export LANG=en_US.UTF-8
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 source $HOME/.zsh_profile
 
+export LANG=en_US.UTF-8
 # Create a cache folder if it isn't exists
 if [ ! -d "$HOME/.cache/zsh" ]; then
     mkdir -p $HOME/.cache/zsh
@@ -34,6 +34,7 @@ zstyle ':omz:plugins:nvm' lazy yes
 
 plugins=(
   nvm
+  vi-mode
 )
 
 # Preferred editor for local and remote sessions
