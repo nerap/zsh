@@ -9,5 +9,7 @@ alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
 
+alias mysql="mysql "$@" 2>&1|grep -v '^mysql: \[Warning'"
+
 bindkey -s ^f "tmux-sessionizer\n"
 
