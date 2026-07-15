@@ -14,8 +14,8 @@ fi
 # Define a custom file for compdump
 export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$HOST-$ZSH_VERSION"
 
-# Brew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Brew (macOS only)
+[[ "$OSTYPE" == darwin* ]] && [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Disable untracked files dirty
 DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -68,7 +68,7 @@ export LIBTORCH_USE_PYTORCH=1
 
 # Add pyenv to PATH
 export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
+command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
 
 # Function to get the current Git branch, folder name, or root, with unstaged change indicator for regular repos
 function get_git_branch_or_folder() {
@@ -146,7 +146,7 @@ setopt prompt_subst
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
