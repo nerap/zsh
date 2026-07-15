@@ -179,3 +179,22 @@ fi
 # Secrets (API keys, tokens) — kept OUT of this public repo in a gitignored local
 # file. Create ~/.zsh_secrets with your `export FOO=...` lines. See dotfiles setup.
 [ -f "$HOME/.zsh_secrets" ] && source "$HOME/.zsh_secrets"
+
+# clip2box — ship the Mac clipboard screenshot to a remote box and print its path.
+# Claude Code over SSH reads the EC2's clipboard, not the Mac's, so pasting an
+# image into a remote session gets nothing. This lands the screenshot as a file
+# on the box and echoes the path (also copied to the Mac clipboard) to paste in.
+# Flow: Cmd+Ctrl+Shift+4 (screenshot -> clipboard) -> clip2box [ssh-host].
+# Requires: brew install pngpaste
+if [[ "$OSTYPE" == darwin* ]]; then
+  clip2box() {
+    local host="${1:-mybox}"                 # ssh host alias
+    local name="clip-$(date +%s).png"
+    local local="/tmp/$name" remote="/home/ubuntu/clips/$name"
+    pngpaste "$local" || { echo "no image in clipboard" >&2; return 1; }
+    ssh "$host" "mkdir -p /home/ubuntu/clips"
+    scp -q "$local" "$host:$remote"
+    echo "$remote"                            # paste this path into Claude Code
+    command -v pbcopy >/dev/null && printf '%s' "$remote" | pbcopy
+  }
+fi
