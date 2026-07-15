@@ -165,6 +165,10 @@ export PATH="$HOME/.local/bin:$PATH"
 # to the Mac via open-url + the watcher `devbox up` starts.
 [[ "$OSTYPE" != darwin* ]] && export BROWSER="$HOME/bin/.local/scripts/open-url"
 
+# On a headless box, use the stable forwarded-agent socket (kept fresh by
+# ~/.ssh/rc) so git@github keeps working in tmux panes across reconnects.
+[[ "$OSTYPE" != darwin* ]] && [ -S "$HOME/.ssh/ssh_auth_sock" ] && export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+
 # macOS-only extras
 if [[ "$OSTYPE" == darwin* ]]; then
   export ANDROID_HOME="$HOME/Library/Android/sdk"
