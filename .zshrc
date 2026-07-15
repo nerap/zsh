@@ -161,6 +161,10 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Claude / local bin
 export PATH="$HOME/.local/bin:$PATH"
 
+# On a headless box, route browser-opening (claude login, MCP OAuth, gh auth…)
+# to the Mac via open-url + the watcher `devbox up` starts.
+[[ "$OSTYPE" != darwin* ]] && export BROWSER="$HOME/bin/.local/scripts/open-url"
+
 # macOS-only extras
 if [[ "$OSTYPE" == darwin* ]]; then
   export ANDROID_HOME="$HOME/Library/Android/sdk"
