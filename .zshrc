@@ -152,3 +152,22 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+
+# Claude / local bin
+export PATH="$HOME/.local/bin:$PATH"
+
+# macOS-only extras
+if [[ "$OSTYPE" == darwin* ]]; then
+  export ANDROID_HOME="$HOME/Library/Android/sdk"
+  export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator"
+  export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+fi
+
+# Secrets (API keys, tokens) — kept OUT of this public repo in a gitignored local
+# file. Create ~/.zsh_secrets with your `export FOO=...` lines. See dotfiles setup.
+[ -f "$HOME/.zsh_secrets" ] && source "$HOME/.zsh_secrets"
