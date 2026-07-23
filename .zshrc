@@ -188,13 +188,15 @@ fi
 # Requires: brew install pngpaste
 if [[ "$OSTYPE" == darwin* ]]; then
   clip2box() {
-    local host="${1:-mybox}"                 # ssh host alias
+    local host="${1:-devbox}"                        # ssh host alias
     local name="clip-$(date +%s).png"
-    local local="/tmp/$name" remote="/home/ubuntu/clips/$name"
-    pngpaste "$local" || { echo "no image in clipboard" >&2; return 1; }
-    ssh "$host" "mkdir -p /home/ubuntu/clips"
-    scp -q "$local" "$host:$remote"
-    echo "$remote"                            # paste this path into Claude Code
-    command -v pbcopy >/dev/null && printf '%s' "$remote" | pbcopy
+    local tmp="/tmp/$name" remote="Downloads/$name"  # relative -> ~ubuntu/Downloads
+    pngpaste "$tmp" 2>/dev/null || { echo "no image in clipboard (screenshot with Cmd+Ctrl+Shift+4)" >&2; return 1; }
+    ssh -o ControlMaster=no -o ControlPath=none -o LogLevel=ERROR "$host" 'mkdir -p ~/Downloads'
+    scp -o ControlMaster=no -o ControlPath=none -o LogLevel=ERROR -q "$tmp" "$host:$remote" || { echo "scp failed" >&2; rm -f "$tmp"; return 1; }
+    rm -f "$tmp"
+    local full="/home/ubuntu/$remote"
+    printf '%s\n' "$full"                             # the path to paste into Claude on the box
+    command -v pbcopy >/dev/null && printf '%s' "$full" | pbcopy && echo "  ↑ path copied to clipboard — Cmd+V it into Claude on the box" >&2
   }
 fi
